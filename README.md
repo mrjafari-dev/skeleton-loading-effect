@@ -27,7 +27,8 @@
 
 <p>Here's an example of how you can use the <code>ShimmerLoader</code> Composable function in your Compose UI:</p>
 
-<pre><code>@Composable
+<pre><code>
+@Composable
 fun MyScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -38,6 +39,59 @@ fun MyScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         ShimmerLoader(modifier = Modifier.size(200.dp))
     }
+}
+
+@Composable
+fun ShimmerLoading(modifier: Modifier = Modifier) {
+
+    var shimmerState = remember { mutableStateOf(true) }
+    val infiniteTransition = rememberInfiniteTransition()
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0.2f, targetValue = 0.8f, animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 700, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    val coroutineScope = rememberCoroutineScope()
+
+    // Simulate loading delay
+    LaunchedEffect(key1 = true) {
+        delay(5) // Adjust the delay time as needed
+        coroutineScope.launch {
+            shimmerState.value = false
+        }
+    }
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.padding(start = 10.dp, end = 10.dp),
+    ) {
+        Box(
+            modifier = modifier
+        ) {
+            val gradient = Brush.horizontalGradient(
+                colors = listOf(Color.Gray.copy(alpha = alpha), Color.Gray.copy(alpha = 0.2f))
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(brush = gradient)
+                    .clip(CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                if (shimmerState.value == true) {
+                    Spacer(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .fillMaxWidth()
+                            .background(Color(0x00008888))
+                    )
+                }
+            }
+        }
+    }
+
 }
 </code></pre>
 
