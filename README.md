@@ -1,4 +1,3 @@
-# sky Application 
 <h1>Skeleton Loading KMP</h1>
   <img src="https://github.com/mrjafari-dev/skeleton-loading-effect/blob/main/video/ezgif-7-2598505f6b.gif" width="80%"/>
 <p>The <code>ShimmerLoader</code> Composable function creates a shimmer loading animation using Jetpack Compose. It simulates a loading effect commonly seen in mobile and web applications while content is being fetched or processed.</p>
